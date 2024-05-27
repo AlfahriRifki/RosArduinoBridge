@@ -72,14 +72,32 @@
   volatile long left_enc_pos = 0L;
   volatile long right_enc_pos = 0L;
 
+  // /* Interrupt routine for LEFT encoder, taking care of actual counting */
+  // ISR(PCINT2_vect) {
+  //     left_enc_pos += 1; // Increment position for left encoder
+  // }
+
+  // /* Interrupt routine for RIGHT encoder, taking care of actual counting */
+  // ISR(PCINT0_vect) {
+  //     right_enc_pos += 1; // Increment position for right encoder
+  // }
+
   /* Interrupt routine for LEFT encoder, taking care of actual counting */
   ISR(PCINT2_vect) {
-      left_enc_pos += 1; // Increment position for left encoder
+      if (digitalRead(DIRECTION_MOTOR_LEFT) == HIGH) {
+          left_enc_pos += 1; // Increment position for left encoder
+      } else {
+          left_enc_pos -= 1; // Decrement position for left encoder
+      }
   }
 
   /* Interrupt routine for RIGHT encoder, taking care of actual counting */
   ISR(PCINT0_vect) {
-      right_enc_pos += 1; // Increment position for right encoder
+      if (digitalRead(DIRECTION_MOTOR_RIGHT) == LOW) {
+          right_enc_pos += 1; // Increment position for right encoder
+      } else {
+          right_enc_pos -= 1; // Decrement position for right encoder
+      }
   }
 
   /* Wrap the encoder reading function */
