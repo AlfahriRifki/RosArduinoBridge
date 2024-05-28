@@ -1,8 +1,3 @@
-/* *************************************************************
-   Encoder driver function definitions - by James Nugen
-   ************************************************************ */
-   
-   
 #ifdef ORIENTAL_ENC_COUNTER_PC
   //below can be changed, but should be PORTD pins; 
   //otherwise additional changes in the code are required

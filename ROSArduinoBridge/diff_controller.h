@@ -74,7 +74,7 @@ void doPID(SetPointInfo * p) {
   input = p->Encoder - p->PrevEnc;
   Perror = p->TargetTicksPerFrame - input;
   
-  /*Perror value condition if the encoder reading is not ever decreasing
+  /*Perror value condition if the encoder reading is never decreasing
   even when the vehicle is moving backward */
   // if (p->TargetTicksPerFrame > 0) {
   //   Perror = p->TargetTicksPerFrame - input;

@@ -1,68 +1,16 @@
-/*********************************************************************
- *  ROSArduinoBridge
- 
-    A set of simple serial commands to control a differential drive
-    robot and receive back sensor and odometry data. Default 
-    configuration assumes use of an Arduino Mega + Pololu motor
-    controller shield + Robogaia Mega Encoder shield.  Edit the
-    readEncoder() and setMotorSpeed() wrapper functions if using 
-    different motor controller or encoder method.
-
-    Created for the Pi Robot Project: http://www.pirobot.org
-    and the Home Brew Robotics Club (HBRC): http://hbrobotics.org
-    
-    Authors: Patrick Goebel, James Nugen
-
-    Inspired and modeled after the ArbotiX driver by Michael Ferguson
-    
-    Software License Agreement (BSD License)
-
-    Copyright (c) 2012, Patrick Goebel.
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions
-    are met:
-
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above
-       copyright notice, this list of conditions and the following
-       disclaimer in the documentation and/or other materials provided
-       with the distribution.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-    FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-    COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-    BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *  POSSIBILITY OF SUCH DAMAGE.
- *********************************************************************/
-
 #define USE_BASE      // Enable the base controller code
 // #undef USE_BASE     // Disable the base controller code
 
-/* Define the motor controller and encoder library you are using */
+/* Define the motor controller and encoder library used*/
 #ifdef USE_BASE
    /* Encoders on ORIENTAL MOTOR DRIVERS with Pin Change Register*/
    #define ORIENTAL_ENC_COUNTER_PC
    /* Encoders on ORIENTAL MOTOR DRIVERS */
 //   #define ORIENTAL_ENC_COUNTER
 
-   /* L298 Motor driver*/
-  //  #define L298_MOTOR_DRIVER
 //   #define ORIENTAL_MOTOR_DRIVER
    #define ORIENTAL_MOTOR_DRIVER_PC
 #endif
-
-//#define USE_SERVOS  // Enable use of PWM servos as defined in servos.h
-#undef USE_SERVOS     // Disable use of PWM servos
 
 /* Serial port baud rate */
 #define BAUDRATE     57600
@@ -79,14 +27,6 @@
 /* Include definition of serial commands */
 #include "commands.h"
 
-/* Sensor functions */
-// #include "sensors.h"
-
-/* Include servo support if required */
-#ifdef USE_SERVOS
-   #include <Servo.h>
-   #include "servos.h"
-#endif
 
 #ifdef USE_BASE
   /* Motor driver function definitions */
@@ -180,15 +120,6 @@ int runCommand() {
   // case PING:
   //   Serial.println(Ping(arg1));
   //   break;
-#ifdef USE_SERVOS
-  case SERVO_WRITE:
-    servos[arg1].setTargetPosition(arg2);
-    Serial.println("OK");
-    break;
-  case SERVO_READ:
-    Serial.println(servos[arg1].getServo().read());
-    break;
-#endif
     
 #ifdef USE_BASE
   case READ_ENCODERS:
@@ -288,18 +219,6 @@ void setup() {
   
 #endif
 
-/* Attach servos if used */
-  #ifdef USE_SERVOS
-    int i;
-    for (i = 0; i < N_SERVOS; i++) {
-      servos[i].initServo(
-          servoPins[i],
-          stepDelay[i],
-          servoInitPosition[i]);
-    }
-  #endif
-}
-
 /* Enter the main loop.  Read and parse input from the serial port
    and run any valid commands. Run a PID calculation at the target
    interval and check for auto-stop conditions.
@@ -359,11 +278,4 @@ void loop() {
   }
 #endif
 
-// Sweep servos
-#ifdef USE_SERVOS
-  int i;
-  for (i = 0; i < N_SERVOS; i++) {
-    servos[i].doSweep();
-  }
-#endif
 }

@@ -1,16 +1,3 @@
-/***************************************************************
-   Motor driver function definitions - by James Nugen
-   *************************************************************/
-//
-//#ifdef L298_MOTOR_DRIVER
-//  #define RIGHT_MOTOR_BACKWARD 5
-//  #define LEFT_MOTOR_BACKWARD  6
-//  #define RIGHT_MOTOR_FORWARD  9
-//  #define LEFT_MOTOR_FORWARD   10
-//  #define RIGHT_MOTOR_ENABLE 12
-//  #define LEFT_MOTOR_ENABLE 13
-//#endif
-//
 //#ifdef ORIENTAL_MOTOR_DRIVER_ESP
 //  #define DIRECTION_MOTOR_RIGHT 14
 //  #define PWM__MOTOR_RIGHT      12
